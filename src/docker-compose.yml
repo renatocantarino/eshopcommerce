@@ -12,3 +12,11 @@ services:
     build:
       context: .
       dockerfile: Service/Catalog/Catalog.API/Dockerfile
+
+
+
+
+
+volumes:
+  postgres_catalog:
+  
