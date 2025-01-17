@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Products.Update;
+﻿using static Kernel.Exceptions.CustomExceptionHandler;
+
+namespace Catalog.API.Products.Update;
 
 public record UpdateProductCommand(
     Guid Id,
@@ -18,7 +20,7 @@ public class UpdateProductCommandHandler(IDocumentSession session, ILogger<Updat
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
         if (product is null)
-            throw new ArgumentException($"product {command.Id} not found");
+            throw new NotFoundException($"product {command.Id} not found");
 
         product.Name = command.Name;
         product.Description = command.Description;

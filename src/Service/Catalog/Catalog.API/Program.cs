@@ -1,5 +1,6 @@
 using FluentValidation;
 using Kernel.Behaviors;
+using Kernel.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +23,14 @@ builder.Services.AddMarten(opts =>
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.MapOpenApi();
 app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/openapi/v1.json", "products apis"));
 
 app.MapCarter();
+app.UseExceptionHandler(opts => { });
 
 app.Run();
