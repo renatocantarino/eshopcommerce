@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.Create;
 
-public record CreateProductCommand(
+public record CreateCommand(
     string Name,
     string Description,
     List<string> Categories,
@@ -9,9 +9,9 @@ public record CreateProductCommand(
 
 public record CreateProductResult(Guid id, DateTime createdAt);
 
-public class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateCommand, CreateProductResult>
 {
-    public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+    public async Task<CreateProductResult> Handle(CreateCommand command, CancellationToken cancellationToken)
     {
         var product = command.Adapt<Product>();
         session.Store(product);

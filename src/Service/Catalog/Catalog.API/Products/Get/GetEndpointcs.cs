@@ -2,18 +2,18 @@
 
 namespace Catalog.API.Products.Get;
 
-public class GetProductsEndpointcs : ICarterModule
+public class GetEndpointcs : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/products",
             async (ISender sender) =>
             {
-                var result = await sender.Send(new GetProductsQuery());
+                var result = await sender.Send(new GetQuery());
                 return Results.Ok(result);
             })
             .WithName("GetProducts")
-            .Produces<GetProductsQuery>(StatusCodes.Status200OK)
+            .Produces<GetQuery>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("get products")
             .WithDescription("get products");

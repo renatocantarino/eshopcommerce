@@ -1,11 +1,11 @@
 ﻿namespace Catalog.API.Products.Get;
 
 public record GetProductsResult(IReadOnlyCollection<Product> Products);
-public record GetProductsQuery() : IQuery<GetProductsResult>;
+public record GetQuery() : IQuery<GetProductsResult>;
 
-public class GetProductsQueryHandler(IDocumentSession session, ILogger<GetProductsQueryHandler> logger) : IQueryHandler<GetProductsQuery, GetProductsResult>
+public class GetProductsQueryHandler(IDocumentSession session, ILogger<GetProductsQueryHandler> logger) : IQueryHandler<GetQuery, GetProductsResult>
 {
-    public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
+    public async Task<GetProductsResult> Handle(GetQuery query, CancellationToken cancellationToken)
     {
         logger.LogInformation("GetProductsQueryHandler : call {@Query}", query);
         var products = await session.Query<Product>().ToListAsync(cancellationToken);
