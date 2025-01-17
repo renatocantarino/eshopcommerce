@@ -15,7 +15,6 @@ public class CreateProductHandler(IDocumentSession session, ILogger<CreateProduc
 {
     public async Task<CreateProductResult> Handle(CreateCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductHandler : call {@Command}", command);
         var product = command.Adapt<Product>();
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);

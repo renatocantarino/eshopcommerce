@@ -7,8 +7,6 @@ public class DeleteByIdCommandHandler(IDocumentSession session, ILogger<DeleteBy
 {
     public async Task<DeleteByIdCommandResult> Handle(DeleteByIdCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteByIdCommandHandler : call {@Command}", command);
-
         session.Delete<Product>(command.Id);
         await session.SaveChangesAsync(cancellationToken);
 

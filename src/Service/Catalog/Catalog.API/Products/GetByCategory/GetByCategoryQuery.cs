@@ -7,8 +7,6 @@ public class GetByCategoryQueryHandler(IDocumentSession session, ILogger<GetByCa
 {
     public async Task<GetByCategoryQueryResult> Handle(GetByCategoryQuery query, CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetByCategoryQueryHandler : call {@Query}", query);
-
         var products = await session.Query<Product>()
             .Where(p => p.Categories.Contains(query.Category))
             .ToListAsync();

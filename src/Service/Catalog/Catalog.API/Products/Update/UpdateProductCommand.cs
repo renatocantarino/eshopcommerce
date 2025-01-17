@@ -13,8 +13,6 @@ public class UpdateProductCommandHandler(IDocumentSession session, ILogger<Updat
 {
     public async Task<UpdateProductCommandResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteByIdCommandHandler : call {@Command}", command);
-
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
         if (product is null)
@@ -25,6 +23,7 @@ public class UpdateProductCommandHandler(IDocumentSession session, ILogger<Updat
         product.Price = command.Price;
         product.ImageUrl = command.ImageUrl;
         product.Categories = command.Categories;
+        product.SetUpdatedAt();
 
         session.Update(product);
 
