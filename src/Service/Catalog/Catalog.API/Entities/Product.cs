@@ -14,18 +14,9 @@ public abstract class BaseEntity
 
 public class Product : BaseEntity
 {
-    public Product(string name, string description, List<string> categories, string imageUrl, decimal price)
-    {
-        Name = name;
-        Description = description;
-        Category = categories;
-        ImageUrl = imageUrl;
-        Price = price;
-    }
-
-    public string Name { get; protected set; } = default!;
-    public string Description { get; protected set; } = default!;
-    public decimal Price { get; protected set; }
-    public string ImageUrl { get; protected set; } = default!;
-    public List<string> Category { get; protected set; } = new();
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public decimal Price { get; set; }
+    public string ImageUrl { get; set; } = default!;
+    public List<string> Categories { get; set; } = [];
 }
