@@ -1,6 +1,7 @@
 ﻿using Catalog.API.Entities;
 using Kernel.CQRS;
 using Mapster;
+using Marten;
 
 namespace Catalog.API.Products;
 
@@ -13,17 +14,13 @@ public record CreateProductCommand(
 
 public record CreateProductResult(Guid id, DateTime createdAt);
 
-public class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         var product = command.Adapt<Product>();
-
-        //var product = new Product(command.name,
-        //    command.description,
-        //    command.categories,
-        //    command.imageUrl,
-        //    command.price);
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
 
         return new CreateProductResult(product.Id, product.CreatedAt);
     }
