@@ -1,8 +1,4 @@
-﻿using Catalog.API.Entities;
-using Kernel.CQRS;
-using Marten;
-
-namespace Catalog.API.Products.Get;
+﻿namespace Catalog.API.Products.Get;
 
 public record GetProductsResult(IReadOnlyCollection<Product> Products);
 public record GetProductsQuery() : IQuery<GetProductsResult>;

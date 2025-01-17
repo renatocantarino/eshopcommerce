@@ -1,7 +1,4 @@
-﻿using Carter;
-using MediatR;
-
-namespace Catalog.API.Products.Create;
+﻿namespace Catalog.API.Products.Create;
 
 public class ProductEndPoints : ICarterModule
 {

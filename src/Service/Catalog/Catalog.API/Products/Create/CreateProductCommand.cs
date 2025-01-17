@@ -1,9 +1,4 @@
-﻿using Catalog.API.Entities;
-using Kernel.CQRS;
-using Mapster;
-using Marten;
-
-namespace Catalog.API.Products.Create;
+﻿namespace Catalog.API.Products.Create;
 
 public record CreateProductCommand(
     string Name,
