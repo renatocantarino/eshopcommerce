@@ -13,7 +13,7 @@ public class CreateProductHandler(IDocumentSession session) : ICommandHandler<Cr
 {
     public async Task<CreateProductResult> Handle(CreateCommand command, CancellationToken cancellationToken)
     {
-        var product = command.Adapt<Product>();
+        var product = command.Adapt<Entities.Product>();
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);
 

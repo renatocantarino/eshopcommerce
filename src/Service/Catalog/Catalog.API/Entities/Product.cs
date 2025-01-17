@@ -10,6 +10,10 @@ public abstract class BaseEntity
 
     public Guid Id { get; protected set; }
     public DateTime CreatedAt { get; protected set; }
+
+    private DateTime? UpdatedAt { get; set; }
+
+    public void SetUpdatedAt() => this.UpdatedAt = DateTime.Now;
 }
 
 public class Product : BaseEntity
