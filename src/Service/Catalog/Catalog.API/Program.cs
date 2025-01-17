@@ -1,10 +1,19 @@
+using FluentValidation;
+using Kernel.Behaviors;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCarter();
+
+var _assembly = typeof(Program).Assembly;
+
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    cfg.RegisterServicesFromAssembly(_assembly);
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
+
+builder.Services.AddValidatorsFromAssembly(_assembly);
 
 builder.Services.AddMarten(opts =>
 {

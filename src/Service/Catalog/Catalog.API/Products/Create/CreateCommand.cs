@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Products.Create;
+﻿using FluentValidation;
+
+namespace Catalog.API.Products.Create;
 
 public record CreateCommand(
     string Name,
@@ -9,11 +11,12 @@ public record CreateCommand(
 
 public record CreateProductResult(Guid id, DateTime createdAt);
 
-public class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateCommand, CreateProductResult>
+public class CreateProductHandler(IDocumentSession session, ILogger<CreateProductHandler> logger) : ICommandHandler<CreateCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateCommand command, CancellationToken cancellationToken)
     {
-        var product = command.Adapt<Entities.Product>();
+        logger.LogInformation("CreateProductHandler : call {@Command}", command);
+        var product = command.Adapt<Product>();
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);
 
