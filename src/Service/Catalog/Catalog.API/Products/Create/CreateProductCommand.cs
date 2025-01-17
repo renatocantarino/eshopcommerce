@@ -3,7 +3,7 @@ using Kernel.CQRS;
 using Mapster;
 using Marten;
 
-namespace Catalog.API.Products;
+namespace Catalog.API.Products.Create;
 
 public record CreateProductCommand(
     string Name,
