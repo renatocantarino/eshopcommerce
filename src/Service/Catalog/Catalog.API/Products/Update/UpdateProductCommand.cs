@@ -1,6 +1,4 @@
-﻿using static Kernel.Exceptions.CustomExceptionHandler;
-
-namespace Catalog.API.Products.Update;
+﻿namespace Catalog.API.Products.Update;
 
 public record UpdateProductCommand(
     Guid Id,
@@ -27,7 +25,6 @@ public class UpdateProductCommandHandler(IDocumentSession session, ILogger<Updat
         product.Price = command.Price;
         product.ImageUrl = command.ImageUrl;
         product.Categories = command.Categories;
-        product.SetUpdatedAt();
 
         session.Update(product);
 

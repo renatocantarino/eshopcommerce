@@ -1,6 +1,4 @@
-﻿using static Kernel.Exceptions.CustomExceptionHandler;
-
-namespace Catalog.API.Products.GetById;
+﻿namespace Catalog.API.Products.GetById;
 
 public record GetProductByIdResult(Product product);
 public record GetByIdQuery(Guid Id) : IQuery<GetProductByIdResult>;

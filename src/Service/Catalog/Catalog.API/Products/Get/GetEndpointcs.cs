@@ -10,6 +10,7 @@ public class GetEndpointcs : ICarterModule
             async (ISender sender) =>
             {
                 var result = await sender.Send(new GetQuery());
+
                 return Results.Ok(result);
             })
             .WithName("GetProducts")

@@ -3,8 +3,11 @@
 public abstract class BaseEntity
 {
     protected BaseEntity()
+    { }
+
+    protected BaseEntity(Guid code)
     {
-        Id = Guid.NewGuid();
+        Id = code;
         CreatedAt = DateTime.Now;
     }
 
@@ -16,8 +19,10 @@ public abstract class BaseEntity
     public void SetUpdatedAt() => this.UpdatedAt = DateTime.Now;
 }
 
-public class Product : BaseEntity
+public class Product
 {
+    public Guid Id { get; set; }
+    public DateTime CreatedAt { get; set; }
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
     public decimal Price { get; set; }
