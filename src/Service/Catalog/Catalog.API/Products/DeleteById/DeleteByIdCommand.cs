@@ -3,7 +3,7 @@
 public record DeleteByIdCommand(Guid Id) : ICommand<DeleteByIdCommandResult>;
 public record DeleteByIdCommandResult(bool IsSucess);
 
-public class DeleteByIdCommandHandler(IDocumentSession session, ILogger<DeleteByIdCommandHandler> logger) : ICommandHandler<DeleteByIdCommand, DeleteByIdCommandResult>
+public class DeleteByIdCommandHandler(IDocumentSession session) : ICommandHandler<DeleteByIdCommand, DeleteByIdCommandResult>
 {
     public async Task<DeleteByIdCommandResult> Handle(DeleteByIdCommand command, CancellationToken cancellationToken)
     {

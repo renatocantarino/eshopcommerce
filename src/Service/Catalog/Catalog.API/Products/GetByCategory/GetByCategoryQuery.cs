@@ -3,7 +3,7 @@
 public record GetByCategoryQueryResult(IReadOnlyCollection<Product> products);
 public record GetByCategoryQuery(string Category) : IQuery<GetByCategoryQueryResult>;
 
-public class GetByCategoryQueryHandler(IDocumentSession session, ILogger<GetByCategoryQueryHandler> logger) : IQueryHandler<GetByCategoryQuery, GetByCategoryQueryResult>
+public class GetByCategoryQueryHandler(IDocumentSession session) : IQueryHandler<GetByCategoryQuery, GetByCategoryQueryResult>
 {
     public async Task<GetByCategoryQueryResult> Handle(GetByCategoryQuery query, CancellationToken cancellationToken)
     {

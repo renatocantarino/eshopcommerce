@@ -11,13 +11,15 @@ public class ShoppingCartItem
 public class ShoppingCart
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string UserName { get; set; } = default!;
+
+    public string Document { get; set; } = default!;
+
     public List<ShoppingCartItem> Items { get; set; } = [];
     public decimal Total => Items.Sum(x => x.Price * x.Quantity);
 
-    public ShoppingCart(string userName)
+    public ShoppingCart(string document)
     {
-        UserName = userName;
+        Document = document;
     }
 
     public ShoppingCart()

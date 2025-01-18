@@ -4,10 +4,10 @@ public class GetEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/basket/{userName}",
-           async (string userName, ISender sender) =>
+        app.MapGet("/basket/{document}",
+           async (string document, ISender sender) =>
            {
-               var result = await sender.Send(new GetByUserName(userName));
+               var result = await sender.Send(new GetByUserName(document));
                return Results.Ok(result);
            })
            .WithName("GetBasket")

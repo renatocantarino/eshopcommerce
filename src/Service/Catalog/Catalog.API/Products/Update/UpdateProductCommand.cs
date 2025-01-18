@@ -9,7 +9,7 @@ public record UpdateProductCommand(
     string ImageUrl) : ICommand<UpdateProductCommandResult>;
 public record UpdateProductCommandResult(bool isSucess);
 
-public class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductCommandResult>
+public class UpdateProductCommandHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductCommandResult>
 {
     public async Task<UpdateProductCommandResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {

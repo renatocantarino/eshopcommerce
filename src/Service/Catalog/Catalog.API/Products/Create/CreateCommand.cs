@@ -11,7 +11,7 @@ public record CreateCommand(
 
 public record CreateProductResult(Guid id, DateTime createdAt);
 
-public class CreateProductHandler(IDocumentSession session, ILogger<CreateProductHandler> logger) : ICommandHandler<CreateCommand, CreateProductResult>
+public class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateCommand command, CancellationToken cancellationToken)
     {

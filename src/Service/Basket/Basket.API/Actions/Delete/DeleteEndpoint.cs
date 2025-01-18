@@ -4,11 +4,11 @@ public class DeleteEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/basket/{userName}",
+        app.MapDelete("/basket/{document}",
 
-          async (string userName, ISender sender) =>
+          async (string document, ISender sender) =>
          {
-             return Results.Ok(await sender.Send(new DeleteCommand(userName)));
+             return Results.Ok(await sender.Send(new DeleteCommand(document)));
          })
          .WithName("DeleteUserBasket")
          .Produces<DeleteCommand>(StatusCodes.Status201Created)

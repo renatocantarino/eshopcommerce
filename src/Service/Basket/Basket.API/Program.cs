@@ -15,7 +15,7 @@ builder.Services.AddValidatorsFromAssembly(_assembly);
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("dataBase")!);
-    opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+    opts.Schema.For<ShoppingCart>().Identity(x => x.Document);
 }).UseLightweightSessions();
 
 builder.Services.AddOpenApi();

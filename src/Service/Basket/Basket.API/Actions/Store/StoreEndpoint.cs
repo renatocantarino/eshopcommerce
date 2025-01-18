@@ -8,7 +8,7 @@ public class StoreEndpoint : ICarterModule
           async (StoreCommand cmd, ISender sender) =>
           {
               var result = await sender.Send(cmd);
-              return Results.Created($"/basket/{result.Name}", result);
+              return Results.Created($"/basket/{result.Document}", result);
           })
           .WithName("CreateBasket")
           .Produces<StoreCommand>(StatusCodes.Status201Created)
