@@ -12,12 +12,27 @@ builder.Services.AddMediatR(cfg =>
 });
 builder.Services.AddValidatorsFromAssembly(_assembly);
 
+builder.Services.AddMarten(opts =>
+{
+    opts.Connection(builder.Configuration.GetConnectionString("dataBase")!);
+    opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+}).UseLightweightSessions();
+
 builder.Services.AddOpenApi();
+
+builder.Services.AddHealthChecks()
+        .AddNpgSql(builder.Configuration.GetConnectionString("dataBase")!);
 
 var app = builder.Build();
 
 app.MapOpenApi();
-app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/openapi/v1.json", "products apis"));
+app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/openapi/v1.json", "basket api"));
 app.MapCarter();
+
+app.UseExceptionHandler(opts => { });
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();

@@ -1,8 +1,11 @@
 ﻿global using Carter;
-global using Mapster;
+global using Marten;
 global using MediatR;
 global using Kernel.CQRS;
 global using Kernel.Exceptions;
 global using FluentValidation;
 global using Kernel.Behaviors;
 global using Basket.API.Models;
+global using Basket.API.Infra.Data;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;

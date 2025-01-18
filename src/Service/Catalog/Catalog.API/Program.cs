@@ -31,7 +31,7 @@ if (builder.Environment.IsDevelopment())
 var app = builder.Build();
 
 app.MapOpenApi();
-app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/openapi/v1.json", "products apis"));
+app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/openapi/v1.json", "products api"));
 
 app.MapCarter();
 app.UseExceptionHandler(opts => { });

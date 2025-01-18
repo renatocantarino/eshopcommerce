@@ -11,11 +11,10 @@ public class DeleteCommandValidator : AbstractValidator<DeleteCommand>
     }
 }
 
-public class DeleteCommandHandler : ICommandHandler<DeleteCommand, DeleteCommandResult>
+public class DeleteCommandHandler(IBasketRepository repository) : ICommandHandler<DeleteCommand, DeleteCommandResult>
 {
     public async Task<DeleteCommandResult> Handle(DeleteCommand request, CancellationToken cancellationToken)
     {
-        return new DeleteCommandResult(true);
-        throw new NotImplementedException();
+        return new DeleteCommandResult(await repository.Delete(request.UserName, cancellationToken));
     }
 }

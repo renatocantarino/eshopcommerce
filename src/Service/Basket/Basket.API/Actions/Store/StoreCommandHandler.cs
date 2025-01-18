@@ -16,11 +16,14 @@ public class StoreCommandValidator : AbstractValidator<StoreCommand>
     }
 }
 
-public class StoreCommandHandler : ICommandHandler<StoreCommand, StoreCommandResult>
+public class StoreCommandHandler(IBasketRepository repository) : ICommandHandler<StoreCommand, StoreCommandResult>
 {
     public async Task<StoreCommandResult> Handle(StoreCommand cmd, CancellationToken cancellationToken)
     {
-        var cart = cmd.Cart;
-        return new StoreCommandResult("bsk-name", true);
+        //id baskt need id
+
+        await repository.Store(cmd.Cart, cancellationToken);
+
+        return new StoreCommandResult(cmd.Cart.UserName, true);
     }
 }

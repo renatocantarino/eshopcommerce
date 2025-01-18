@@ -1,12 +1,12 @@
 ﻿namespace Basket.API.Actions.Get;
 
-public record GetByUserName(string userName) : IQuery<GetByUserNameResult>;
+public record GetByUserName(string UserName) : IQuery<GetByUserNameResult>;
 public record GetByUserNameResult(ShoppingCart ShoppingCart);
 
-public class GetQueryHandler : IQueryHandler<GetByUserName, GetByUserNameResult>
+public class GetQueryHandler(IBasketRepository repository) : IQueryHandler<GetByUserName, GetByUserNameResult>
 {
-    public Task<GetByUserNameResult> Handle(GetByUserName request, CancellationToken cancellationToken)
+    public async Task<GetByUserNameResult> Handle(GetByUserName request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return new GetByUserNameResult(await repository.Get(request.UserName, cancellationToken));
     }
 }
