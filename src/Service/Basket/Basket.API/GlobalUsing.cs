@@ -9,3 +9,5 @@ global using Basket.API.Models;
 global using Basket.API.Infra.Data;
 global using HealthChecks.UI.Client;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Caching.Distributed;
+global using System.Text.Json;

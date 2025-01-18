@@ -1,3 +1,5 @@
+using Basket.API.Infra.Cache;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCarter();
@@ -17,6 +19,16 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("dataBase")!);
     opts.Schema.For<ShoppingCart>().Identity(x => x.Document);
 }).UseLightweightSessions();
+
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddOpenApi();
 
