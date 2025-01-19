@@ -23,8 +23,6 @@ public class StoreCommandHandler(IBasketRepository repository) : ICommandHandler
 {
     public async Task<StoreCommandResult> Handle(StoreCommand cmd, CancellationToken cancellationToken)
     {
-        //id baskt need id
-
         await repository.Store(cmd.Cart, cancellationToken);
 
         return new StoreCommandResult(cmd.Cart.Document, true);

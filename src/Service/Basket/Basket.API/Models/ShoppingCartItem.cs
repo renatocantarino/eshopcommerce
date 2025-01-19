@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Basket.API.Models;
 
 public class ShoppingCartItem
 {
@@ -10,11 +12,14 @@ public class ShoppingCartItem
 
 public class ShoppingCart
 {
+    [JsonIgnore]
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Document { get; set; } = default!;
 
     public List<ShoppingCartItem> Items { get; set; } = [];
+
+    [JsonIgnore]
     public decimal Total => Items.Sum(x => x.Price * x.Quantity);
 
     public ShoppingCart(string document)

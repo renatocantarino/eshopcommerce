@@ -1,5 +1,3 @@
-using Basket.API.Infra.Cache;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCarter();
@@ -33,7 +31,8 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddOpenApi();
 
 builder.Services.AddHealthChecks()
-        .AddNpgSql(builder.Configuration.GetConnectionString("dataBase")!);
+        .AddNpgSql(builder.Configuration.GetConnectionString("dataBase")!)
+        .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
 var app = builder.Build();
 
