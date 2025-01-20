@@ -8,6 +8,7 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
         if (coupon is null)
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid request object."));
 
+        coupon.ProductId = Guid.NewGuid().ToString();
         dbContext.Coupons.Add(coupon);
         await dbContext.SaveChangesAsync();
 
@@ -21,10 +22,8 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
     {
         var coupon = await dbContext
             .Coupons
-            .FirstOrDefaultAsync(x => x.ProductName == request.ProductName);
-
-        if (coupon is null)
-            throw new RpcException(new Status(StatusCode.NotFound, $"Discount with ProductName={request.ProductName} is not found."));
+            .FirstOrDefaultAsync(x => x.ProductId == request.ProductName)
+                    ?? throw new RpcException(new Status(StatusCode.NotFound, $"Discount with ProductName={request.ProductName} is not found."));
 
         dbContext.Coupons.Remove(coupon);
         await dbContext.SaveChangesAsync();
@@ -36,7 +35,7 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
 
     public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
     {
-        var result = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductName == request.ProductName);
+        var result = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductId == request.ProductName);
 
         result ??= new Coupon { Amount = 0 };
 
@@ -49,9 +48,8 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
 
     public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
     {
-        var coupon = request.Coupon.Adapt<Coupon>();
-        if (coupon is null)
-            throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid request object."));
+        var coupon = request.Coupon.Adapt<Coupon>()
+                            ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid request object."));
 
         dbContext.Coupons.Update(coupon);
         await dbContext.SaveChangesAsync();

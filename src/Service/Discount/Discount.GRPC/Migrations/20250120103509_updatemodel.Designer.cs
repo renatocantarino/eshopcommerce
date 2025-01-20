@@ -2,6 +2,7 @@
 using Discount.GRPC.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Discount.GRPC.Migrations
 {
     [DbContext(typeof(DiscountContext))]
-    partial class DiscountContextModelSnapshot : ModelSnapshot
+    [Migration("20250120103509_updatemodel")]
+    partial class updatemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -47,7 +50,7 @@ namespace Discount.GRPC.Migrations
                             Id = 1,
                             Amount = 150,
                             Description = "aplle phone",
-                            ProductId = "c72b9046-9f0a-4e62-8091-324885f914fb",
+                            ProductId = "fc84f373-cf56-44f7-a737-c314003879ee",
                             ProductName = "IPhone X"
                         },
                         new
@@ -55,7 +58,7 @@ namespace Discount.GRPC.Migrations
                             Id = 2,
                             Amount = 100,
                             Description = "aplle phone X",
-                            ProductId = "fab15cac-d53b-4085-9ed3-da014e03a856",
+                            ProductId = "737c3ac7-a38c-49f0-b9a4-a8b88ce013d5",
                             ProductName = "IPhone XX"
                         });
                 });
