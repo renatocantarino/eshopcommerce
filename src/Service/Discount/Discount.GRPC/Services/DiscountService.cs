@@ -1,6 +1,9 @@
-﻿namespace Discount.GRPC.Services;
+﻿using Discount.GRPC.Models;
+using Microsoft.Extensions.Caching.Memory;
 
-public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountProtoService> logger) : DiscountService.DiscountServiceBase
+namespace Discount.GRPC.Services;
+
+public class DiscountProtoService(DiscountContext dbContext, IMemoryCache memoryCache, ILogger<DiscountProtoService> logger) : DiscountService.DiscountServiceBase
 {
     public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
     {
@@ -28,6 +31,9 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
         dbContext.Coupons.Remove(coupon);
         await dbContext.SaveChangesAsync();
 
+        memoryCache.Remove(coupon.ProductId);
+        logger.LogInformation("cache removed on delete : {ProductName}", coupon.ProductId);
+
         logger.LogInformation("Discount is successfully deleted. ProductName : {ProductName}", request.ProductName);
 
         return new DeleteDiscountResponse { Success = true };
@@ -35,15 +41,21 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
 
     public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
     {
-        var result = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductId == request.ProductName);
+        return await memoryCache.GetOrCreateAsync(request.ProductName, async entry =>
+        {
+            entry.SlidingExpiration = TimeSpan.FromMinutes(5);
+            var result = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductId == request.ProductName);
 
-        result ??= new Coupon { Amount = 0 };
+            if (result is null)
+            {
+                result = new Coupon { ProductName = "No Discount", Amount = 0 };
+            }
 
-        logger.LogInformation("Discount is retrieved for ProductName : {productName}, Amount : {amount}", result.ProductName, result.Amount);
-
-        var _model = result.Adapt<CouponModel>();
-
-        return _model;
+            logger.LogInformation("Discount is retrieved for ProductName : {productName}, Amount : {amount}", result.ProductName, result.Amount);
+            logger.LogInformation("cache adds on get : {ProductName}", result.ProductName);
+            var _model = result.Adapt<CouponModel>();
+            return _model;
+        });
     }
 
     public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
@@ -55,6 +67,8 @@ public class DiscountProtoService(DiscountContext dbContext, ILogger<DiscountPro
         await dbContext.SaveChangesAsync();
 
         logger.LogInformation("Discount is successfully updated. ProductName : {ProductName}", coupon.ProductName);
+        memoryCache.Remove(coupon.ProductId);
+        logger.LogInformation("cache removed on update : {ProductName}", coupon.ProductName);
 
         var couponModel = coupon.Adapt<CouponModel>();
         return couponModel;
