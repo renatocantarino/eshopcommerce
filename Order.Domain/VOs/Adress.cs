@@ -2,32 +2,18 @@
 
 public record Address(string ZipCode, string Country);
 
-public record Payment
+public record OrderName
 {
-    public string? CardName { get; } = default!;
-    public string CardNumber { get; } = default!;
-    public string Expiration { get; } = default!;
-    public string CVV { get; } = default!;
-    public int PaymentMethod { get; } = default!;
+    private const int Min_Length = 3;
+    public string Value { get; }
 
-    public Payment() { }
-
-    public Payment(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
+    public OrderName(string value)
     {
-        CardName = cardName;
-        CardNumber = cardNumber;
-        Expiration = expiration;
-        CVV = cvv;
-        PaymentMethod = paymentMethod;
-    }
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
-    public static Payment Of(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(cardName);
-        ArgumentException.ThrowIfNullOrWhiteSpace(cardNumber);
-        ArgumentException.ThrowIfNullOrWhiteSpace(cvv);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(cvv.Length, 3);
+        if (value.Length <= Min_Length)
+            throw new ArgumentException($"Order name must have at least {Min_Length} characters");
 
-        return new Payment(cardName, cardNumber, expiration, cvv, paymentMethod);
+        Value = value;
     }
 }
