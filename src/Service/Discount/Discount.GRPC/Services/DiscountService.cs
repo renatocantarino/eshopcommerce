@@ -46,10 +46,7 @@ public class DiscountProtoService(DiscountContext dbContext, IMemoryCache memory
             entry.SlidingExpiration = TimeSpan.FromMinutes(5);
             var result = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductId == request.ProductName);
 
-            if (result is null)
-            {
-                result = new Coupon { ProductName = "No Discount", Amount = 0 };
-            }
+            result ??= new Coupon { ProductName = "No Discount", Amount = 0 };
 
             logger.LogInformation("Discount is retrieved for ProductName : {productName}, Amount : {amount}", result.ProductName, result.Amount);
             logger.LogInformation("cache adds on get : {ProductName}", result.ProductName);

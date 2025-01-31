@@ -6,11 +6,9 @@ public record OrderItemId
     private OrderItemId(Guid value) => Value = value;
     public static OrderItemId Of(Guid value)
     {
-        ArgumentNullException.ThrowIfNull(value);
+        ArgumentNullException.ThrowIfNull(value, "value is GuidEmpty");
         if (value == Guid.Empty)
-        {
             throw new ArgumentException($"value is GuidEmpty");
-        }
 
         return new OrderItemId(value);
     }
