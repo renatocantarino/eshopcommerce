@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Order.Domain.Models;
-using System.Reflection;
+﻿namespace Order.Infra.Data;
 
-namespace Order.Infra.Data;
-
-public class appDbContext : DbContext
+public class AppDbContext : DbContext
 {
-    public appDbContext(DbContextOptions<appDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 

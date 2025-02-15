@@ -1,16 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Order.Infra;
+﻿namespace Order.Infra;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("OrderDb");
+        var connectionString = configuration.GetConnectionString("Database");
 
-        //services.AddDbContext<OrderContext>(options =>
-        //    options.UseSqlServer(configuration.GetConnectionString("OrderConnection")));
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString(connectionString)));
 
         //services.AddScoped<IOrderRepository, OrderRepository>();
 
